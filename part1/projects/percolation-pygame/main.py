@@ -18,7 +18,8 @@ class gameboard:
     def get_board(self):
         return self.board
 
-    def regen(self):
+    def regen(self, size = None):
+        self.size = size if size != None else self.size
         self.board = np.random.randint(low = 0, high = 2, size = (self.size, self.size))
 
     def xy_to_num(self, x, y):
@@ -37,9 +38,13 @@ class gameboard:
                     open_idx.append(self.xy_to_num(c, r))
         return open_idx
 
-SIZE = SCREEN_H, SCREEN_W = (512, 512)
+SIZE = SCREEN_W, SCREEN_H = (512, 512 + 30)
 SCREEN = pygame.display.set_mode(SIZE)
+MSGBOX = pygame.Surface.subsurface(SCREEN, (0, 512, SCREEN_W, 30))
 pygame.display.set_caption("Percolation Demo")
+
+# set up fonts
+font = pygame.font.SysFont('Arial', 20)
 
 FPS = 30
 clock = pygame.time.Clock()
@@ -50,7 +55,7 @@ BLUE = (100, 100, 205)
 sep_width = 2
 
 def draw_grid(board, size = 64):
-    blockSize = SCREEN_H // size # Set the size of the grid block
+    blockSize = SCREEN_W // size # Set the size of the grid block
     for x in range(size):
         for y in range(size):
             start_x = x * blockSize
@@ -97,20 +102,25 @@ def update_tree(gameboard, ds, size):
 update_tree(gb, qu, size)
 
 # percolate?
-print(qu.connected(size * size, size * size + 1))
+res = qu.connected(size * size, size * size + 1)
+text = font.render(f"Percolates: {res}", 1, BLACK)
 
 while is_running:
     SCREEN.fill(BLACK)
+    MSGBOX.fill(WHITE)
+    SCREEN.blit(text, (10, 515))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             is_running = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_r:
                 # reset the gameboard
-                gb.regen()
+                size = np.random.choice([8, 16, 32, 64])
+                gb.regen(size)
                 qu = eff_union(size * size + 2)
                 update_tree(gb, qu, size)
-                print(qu.connected(size * size, size * size + 1))
+                res = qu.connected(size * size, size * size + 1)
+                text = font.render(f"Percolates: {res}", 1, BLACK)
     draw_grid(gb.get_board(), gb.size)
     clock.tick(FPS)
 
