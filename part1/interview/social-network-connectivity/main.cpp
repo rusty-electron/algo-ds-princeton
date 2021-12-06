@@ -14,18 +14,10 @@ class WQUPC{
     // WQUPC -> weighted quick union with path compression
     // time complexity: lg*N
     WQUPC(int size) {
-        // initialize the id array
+        // initialize the array
         for(int i=0; i<size; i++){
             id.push_back(i);
-        }
-
-        // initialize the weight array with zeros
-        for(int i=0; i<size; i++){
             weight.push_back(0);
-        }
-
-        // initialize the length array to keep track of sizes
-        for(int i=0; i<size; i++){
             length.push_back(1);
         }
     }

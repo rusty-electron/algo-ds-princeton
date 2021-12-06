@@ -13,3 +13,5 @@ Given a social network containing `n` members and a log file containing `m` time
 Add a method `find()` to the union-find data type so that `find(i)` returns the largest element in the connected component containing `i`. The operations, `union()`, `connected()`, and `find()` should all take logarithmic time or better.
 
 For example, if one of the connected components is `{1,2,6,9}`, then the `find()` method should return 9 for each of the four elements in the connected components.
+        
+> Soluton: We need to create an extra array, `max_val[N]` for storing max values corresponding to the roots of each of the trees. First, we initialize this array with the values of elements themselves and then everytime we connect a root of a tree to another root, we consult this array of max values and update the `max_val[root(larger tree)]` to the larger among `max_val[root of p]` and `max_val[root of q]`.

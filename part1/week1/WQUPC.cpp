@@ -8,15 +8,11 @@ class WQUPC{
 
     public:
     // WQUPC -> weighted quick union with path compression
-    // time complexity: lg*N
+    // time complexity: Nlg*N
     WQUPC(int size) {
-        // initialize the id array
+        // initialize the arrays
         for(int i=0; i<size; i++){
             id.push_back(i);
-        }
-
-        // initialize the weight array with zeros
-        for(int i=0; i<size; i++){
             weight.push_back(0);
         }
     }
@@ -36,6 +32,9 @@ class WQUPC{
     void union_op(int p, int q){
         int qid = root(q);
         int pid = root(p);
+
+        if (pid == qid) return;
+
         if (weight[qid] > weight[pid]){
             // connect the larger tree to the root
             // of the smaller tree and increase its weight

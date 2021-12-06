@@ -11,19 +11,11 @@ class WQUPC{
     // WQUPC -> weighted quick union with path compression
     // time complexity: lg*N
     WQUPC(int size) {
-        // initialize the id array
+        // initialize the arrays
         for(int i=0; i<size; i++){
             id.push_back(i);
-        }
-
-        // initialize the weight array with zeros
-        for(int i=0; i<size; i++){
             weight.push_back(0);
-        }
-
-        // initialize the max_val array with -1s
-        for(int i=0; i<size; i++){
-            max_val.push_back(-1);
+            max_val.push_back(i);
         }
     }
 
@@ -43,6 +35,9 @@ class WQUPC{
         int qid = root(q);
         int pid = root(p);
         int small_tree, big_tree, weight_val;
+
+        if (qid == pid) return;
+
         if (weight[pid] >= weight[qid]){
             small_tree = qid;
             big_tree = pid;
@@ -60,11 +55,12 @@ class WQUPC{
         weight[big_tree] += weight_val;
         weight[small_tree] = 0; 
 
-        int bigger = (p>=q)? p:q; // find the larger among the two inputs p and q
+        // for updating the max values array
+        int max_in_small = max_val[small_tree];
+        int max_in_big = max_val[big_tree];
 
-        // if that value is larger than the current largest value in the tree, replace it
-        if (bigger > max_val[big_tree]){ 
-            max_val[big_tree] = bigger;
+        if (max_in_small > max_in_big) {
+            max_val[big_tree] = max_in_small;
         }
     }
 
