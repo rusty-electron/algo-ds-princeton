@@ -117,11 +117,11 @@ int main() {
         while (std::getline(inFile, line)){
             std::stringstream ss(line);
 
-            std::string a, b, date, time;
+            std::string a, b, date_str, time_str;
             std::getline(ss, a, ' ');
             std::getline(ss, b, ' ');
-            std::getline(ss, date, ' ');
-            std::getline(ss, time, ' ');
+            std::getline(ss, date_str, ' ');
+            std::getline(ss, time_str, ' ');
 
             int a_val = atoi(a.c_str());
             int b_val = atoi(b.c_str());
@@ -130,7 +130,7 @@ int main() {
             qu.union_op(a_val, b_val);
 
             if (qu.get_length(qu.root(a_val)) == size) {
-                std::cout << "all nodes connected at " << date << " " << time << std::endl;
+                std::cout << "all nodes connected at " << date_str << " " << time_str << std::endl;
                 break;
             }
         }

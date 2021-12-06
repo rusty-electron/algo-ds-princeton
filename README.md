@@ -12,6 +12,10 @@
 
 * [Percolation](part1/projects/percolation-pygame) - python
 
+## Interview questions
+
+* [Week 1](./part1/interview)
+
 ## Resources
 
 * [Algorithms, Part I](https://www.coursera.org/learn/algorithms-part1)
